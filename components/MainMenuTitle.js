@@ -28,23 +28,29 @@ export const MainMenuTitle: () => Node = (props) => {
       <Animated.View
         style={{
           ...props.style,
-          transform: [{ 
-            rotateZ: fadeAnim.interpolate(
+          transform: [
+            { 
+                rotateZ: fadeAnim.interpolate(
+                {
+                    inputRange: [0, 1],
+                    outputRange: ["-15deg", "15deg"]  
+                })
+            },
             {
-                inputRange: [0, 1],
-                outputRange: ["-15deg", "15deg"]  
-            }),
-            scaleX: fadeAnim.interpolate(
+                scaleX: fadeAnim.interpolate(
+                {
+                    inputRange: [0, 0.5, 1],
+                    outputRange: [1, 1.5, 1]  
+                })
+            },
             {
-                inputRange: [0, 0.5, 1],
-                outputRange: [1, 1.5, 1]  
-            }),
-            scaleY: fadeAnim.interpolate(
-            {
-                inputRange: [0, 0.5, 1],
-                outputRange: [1, 1.5 , 1]  
-            }),
-        }]
+                scaleY: fadeAnim.interpolate(
+                {
+                    inputRange: [0, 0.5, 1],
+                    outputRange: [1, 1.5 , 1]  
+                })
+            },
+        ]
         }}>
         {props.children}
       </Animated.View>
