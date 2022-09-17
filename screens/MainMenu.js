@@ -11,13 +11,17 @@ import {
   View,
 } from 'react-native';
 import {useTheme} from '@react-navigation/native'; 
-
+import { MainMenuTitle } from '../components/MainMenuTitle';
 
 const colors = useTheme().colors;
 
 export const MainMenu: () => Node = () => {  
     return (
-        <Text style={MainMenuStyle.title}>StopTap</Text>
+      <View>
+        <MainMenuTitle>
+          <Text style={MainMenuStyle.title}>StopTap</Text>
+        </MainMenuTitle>
+      </View>
     );
 };
 
