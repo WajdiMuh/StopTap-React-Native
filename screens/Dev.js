@@ -10,16 +10,34 @@ import {
   useColorScheme,
   View,
   Image,
-  TouchableOpacity
+  TouchableOpacity,
+  Button
 } from 'react-native';
 import {useTheme} from '@react-navigation/native'; 
+import { Devimg } from '../components/Devimg';
+import { StopTapButton } from '../components/StopTapButton';
 
 export const Dev: () => Node = ({ navigation }) => {  
   const { colors } = useTheme();
   const styles = DevStyle(colors)
   return (
     <View style={styles.container}>
-        <Text>hello</Text>
+      <Text style={styles.textabove}>Developed By</Text>
+      <Text style={styles.textabove}>Wajdi ELMuhtadi</Text>
+      <Devimg>  
+        <Image style={styles.devimg}
+          source={require('../assets/imgs/wajdi.png')}
+        />
+      </Devimg>
+      <Text style={styles.textbelow}>Thanks for playing</Text>
+      <View style={styles.backbtn}>
+        <StopTapButton
+          bgcolor={colors.background}
+          btcolor={colors.text}
+          onPress={()=> {navigation.pop()}}
+          title="Back"
+        />
+      </View>
     </View>
   );
 };
@@ -27,21 +45,19 @@ export const Dev: () => Node = ({ navigation }) => {
 const DevStyle = (colors:any) => StyleSheet.create({
   container:{
     alignItems: 'center',
-    flex: 1
-  }
-  ,
-  title:{
+    justifyContent: 'center',
+    flex: 1,
+  },
+  textabove:{
+    marginBottom: 20,
+    fontFamily: 'DotsAllForNowJL',
+  },
+  textbelow:{
     marginTop: 20,
-    fontSize: 40,
-    color: colors.text
+    fontFamily: 'DotsAllForNowJL'
   },
-  devbutton:{
+  backbtn:{
     position: 'absolute',
-    left: 10,
-    bottom: 10
-  },
-  devbuttonimg:{
-    width: 50,
-    height: 50
+    bottom: 20,
   }
 });
