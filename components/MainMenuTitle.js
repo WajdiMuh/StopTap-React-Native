@@ -1,12 +1,12 @@
 import React, { useRef, useEffect } from 'react';
 import { Animated, Text, View } from 'react-native';
 export const MainMenuTitle: () => Node = (props) => {
-    const fadeAnim = useRef(new Animated.Value(0)).current 
+    const anim = useRef(new Animated.Value(0)).current 
     useEffect(() => {
         Animated.loop(
             Animated.sequence([
                 Animated.timing(
-                    fadeAnim,
+                    anim,
                     {
                         toValue: 1,
                         duration: 500,
@@ -14,7 +14,7 @@ export const MainMenuTitle: () => Node = (props) => {
                     }
                 ),
                 Animated.timing(
-                    fadeAnim,
+                    anim,
                     {
                         toValue: 0,
                         duration: 500,
@@ -23,28 +23,28 @@ export const MainMenuTitle: () => Node = (props) => {
                 )
             ])
         ).start();
-    }, [fadeAnim])
+    }, [anim])
     return (
       <Animated.View
         style={{
           ...props.style,
           transform: [
             { 
-                rotateZ: fadeAnim.interpolate(
+                rotateZ: anim.interpolate(
                 {
                     inputRange: [0, 1],
                     outputRange: ["-15deg", "15deg"]  
                 })
             },
             {
-                scaleX: fadeAnim.interpolate(
+                scaleX: anim.interpolate(
                 {
                     inputRange: [0, 0.5, 1],
                     outputRange: [1, 1.5, 1]  
                 })
             },
             {
-                scaleY: fadeAnim.interpolate(
+                scaleY: anim.interpolate(
                 {
                     inputRange: [0, 0.5, 1],
                     outputRange: [1, 1.5 , 1]  
