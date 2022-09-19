@@ -16,6 +16,7 @@ import {
 import {useTheme} from '@react-navigation/native'; 
 import { Devimg } from '../components/Devimg';
 import { StopTapButton } from '../components/StopTapButton';
+import { Devname } from '../components/Devname';
 
 export const Dev: () => Node = ({ navigation }) => {  
   const { colors } = useTheme();
@@ -23,7 +24,9 @@ export const Dev: () => Node = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.textabove}>Developed By</Text>
-      <Text style={styles.textabove}>Wajdi ELMuhtadi</Text>
+      <Devname style={styles.textabove} color={colors.text} interval={500}>
+        Wajdi ELMuhtadi
+      </Devname>
       <Devimg>  
         <Image style={styles.devimg}
           source={require('../assets/imgs/wajdi.png')}
