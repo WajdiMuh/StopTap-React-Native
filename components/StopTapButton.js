@@ -5,11 +5,13 @@ export const StopTapButton: () => Node = (props) => {
         <TouchableOpacity style={{
                 borderWidth: 5,
                 borderColor: props.btcolor,
-                borderRadius: 5
+                borderRadius: 5,
+                backgroundColor: props.bgcolor,
+                ...props.style
             }} 
             onPress={props.onPress}>
-            <View style={{alignItems: 'center',...props.style,backgroundColor: props.bgcolor}}>
-                <Text style={{padding: 4, color: props.btcolor}}>{props.title}</Text>
+            <View style={{alignItems: 'center',backgroundColor: props.bgcolor}}>
+                <Text style={{padding: 4, color: props.btcolor ,fontFamily: 'DotsAllForNowJL', fontSize: 17}}>{props.title}</Text>
             </View>
         </TouchableOpacity>
     );

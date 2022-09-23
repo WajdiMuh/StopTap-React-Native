@@ -1,5 +1,11 @@
 export default {
     mainmenu: {
-        play: "إلعب"
+        play: "إلعب",
+        howtoplay: "كيفية اللعب",
+        shop: "المتجر",
+        account: "الحساب"
+    },
+    general: {
+        back: "عودة"
     }
 } 

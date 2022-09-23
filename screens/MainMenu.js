@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import type {Node} from 'react';
+import {Node, useState} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -10,19 +10,23 @@ import {
   useColorScheme,
   View,
   Image,
-  TouchableOpacity
+  TouchableOpacity,
+  Dimensions
 } from 'react-native';
 import {useTheme} from '@react-navigation/native'; 
 import { MainMenuTitle } from '../components/MainMenuTitle';
 import { strings } from '../translations/languages';
+import { StopTapButton } from '../components/StopTapButton';
+
+const screen = Dimensions.get("screen");
 
 export const MainMenu: () => Node = ({ navigation }) => {  
   const { colors } = useTheme();
   const styles = MainMenuStyle(colors)
   return (
     <View style={styles.container}>
-      <MainMenuTitle>
-        <Text style={styles.title}>StopTap</Text>
+      <MainMenuTitle style={styles.title}>
+        <Text style={styles.titletext}>StopTap</Text>
       </MainMenuTitle>
       <TouchableOpacity style={styles.devbutton} onPress={()=>{navigation.navigate('Dev')}}>
         <Image
@@ -30,6 +34,39 @@ export const MainMenu: () => Node = ({ navigation }) => {
           source={require('../assets/imgs/wajdi.png')}
         />
       </TouchableOpacity>
+      <TouchableOpacity style={styles.settingsbutton} onPress={()=>{navigation.navigate('Settings')}}>
+        <Image
+          style={styles.settingsbuttonimg}
+          source={require('../assets/imgs/settings.png')}
+        />
+      </TouchableOpacity>
+      <StopTapButton
+          bgcolor={colors.background}
+          btcolor={colors.text}
+          onPress={()=> {navigation.pop()}}
+          title={strings.mainmenu.play}
+          style={styles.gap}
+      />
+      <StopTapButton
+        bgcolor={colors.background}
+        btcolor={colors.text}
+        onPress={()=> {navigation.pop()}}
+        title={strings.mainmenu.howtoplay}
+        style={styles.gap}
+      />
+      <StopTapButton
+        bgcolor={colors.background}
+        btcolor={colors.text}
+        onPress={()=> {navigation.pop()}}
+        title={strings.mainmenu.shop}
+        style={styles.gap}
+      />
+      <StopTapButton
+        bgcolor={colors.background}
+        btcolor={colors.text}
+        onPress={()=> {navigation.pop()}}
+        title={strings.mainmenu.account}
+      />
     </View>
   );
 };
@@ -37,14 +74,29 @@ export const MainMenu: () => Node = ({ navigation }) => {
 const MainMenuStyle = (colors:any) => StyleSheet.create({
   container:{
     alignItems: 'center',
-    flex: 1
-  }
-  ,
+    flex: 1,
+    justifyContent: 'center'
+  },
   title:{
-    marginTop: 20,
-    fontSize: 40,
+    position:'absolute',
+    top: screen.height * 0.1
+  },
+  titletext:{
+    fontSize: screen.width * 0.055,
     color: colors.text,
     fontFamily: 'DotsAllForNowJL'
+  },
+  gap:{
+    marginBottom: 10
+  },
+  settingsbutton:{
+    position: 'absolute',
+    left: 10,
+    top: 10
+  },
+  settingsbuttonimg:{
+    width: 40,
+    height: 40
   },
   devbutton:{
     position: 'absolute',

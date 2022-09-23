@@ -17,6 +17,7 @@ import {useTheme} from '@react-navigation/native';
 import { Devimg } from '../components/Devimg';
 import { StopTapButton } from '../components/StopTapButton';
 import { Devname } from '../components/Devname';
+import { strings } from '../translations/languages';
 
 export const Dev: () => Node = ({ navigation }) => {  
   const { colors } = useTheme();
@@ -33,14 +34,13 @@ export const Dev: () => Node = ({ navigation }) => {
         />
       </Devimg>
       <Text style={styles.textbelow}>Thanks for playing</Text>
-      <View style={styles.backbtn}>
-        <StopTapButton
-          bgcolor={colors.background}
-          btcolor={colors.text}
-          onPress={()=> {navigation.pop()}}
-          title="Back"
-        />
-      </View>
+      <StopTapButton
+        bgcolor={colors.background}
+        btcolor={colors.text}
+        onPress={()=> {navigation.pop()}}
+        title={strings.general.back}
+        style={styles.backbtn}
+      />
     </View>
   );
 };
@@ -54,10 +54,12 @@ const DevStyle = (colors:any) => StyleSheet.create({
   textabove:{
     marginBottom: 20,
     fontFamily: 'DotsAllForNowJL',
+    color: colors.text
   },
   textbelow:{
     marginTop: 20,
-    fontFamily: 'DotsAllForNowJL'
+    fontFamily: 'DotsAllForNowJL',
+    color: colors.text
   },
   backbtn:{
     position: 'absolute',
