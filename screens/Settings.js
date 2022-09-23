@@ -1,6 +1,7 @@
 // @flow
 import React from 'react';
 import type {Node} from 'react';
+import { useState, useEffect } from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -16,10 +17,32 @@ import {
 import {useTheme} from '@react-navigation/native'; 
 import { StopTapButton } from '../components/StopTapButton';
 import { strings } from '../translations/languages';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const Settings: () => Node = ({ navigation }) => {  
   const { colors } = useTheme();
   const styles = SettingsStyle(colors);
+  const [isVibrateOn, setIsVibrateOn] = useState(true);
+  async function readvibrate() {
+    try {
+        const value = await AsyncStorage.getItem('vibrate');
+        if(value !== null) {
+            setIsVibrateOn(JSON.parse(value))
+        }
+    } catch(e) {
+
+    }
+  }
+  async function setvibrate() {
+    try {
+        await AsyncStorage.setItem('vibrate', JSON.stringify(!isVibrateOn));
+    } catch(e) {
+
+    }
+  }
+  useEffect(() => {
+        readvibrate();
+    }, []);
   return (
     <View style={styles.container}>
         <Text style={styles.settingstitle}>Settings</Text>
@@ -29,9 +52,14 @@ export const Settings: () => Node = ({ navigation }) => {
           source={require('../assets/imgs/language.png')}
         />
       </TouchableOpacity>
-      <TouchableOpacity style={styles.vibratebutton} onPress={()=>{navigation.navigate('Dev')}}>
+      <TouchableOpacity style={styles.vibratebutton} 
+        onPress={()=> {
+            setvibrate();
+            setIsVibrateOn(!isVibrateOn);
+        }}
+      >
         <Image
-          style={styles.vibratebuttonimg}
+          style={[styles.vibratebuttonimg, isVibrateOn && styles.vibrateon]}
           source={require('../assets/imgs/vibrate.png')}
         />
       </TouchableOpacity>
@@ -70,7 +98,10 @@ const SettingsStyle = (colors:any) => StyleSheet.create({
   },
   vibratebuttonimg:{
     width: 40,
-    height: 40
+    height: 40,
+  },
+  vibrateon:{
+    tintColor: 'red'
   },
   languagebutton:{
     position: 'absolute',
