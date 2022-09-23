@@ -1,7 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { Animated, Text, View } from 'react-native';
 export const Devname: () => Node = (props) => {
-    console.log(props);
     const [isBlue, setIsBlue] = useState(props.color);
     useEffect(() => {
         const toggle = setInterval(() => {
