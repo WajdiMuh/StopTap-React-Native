@@ -19,6 +19,7 @@ import { DarkTheme,DefaultTheme,NavigationContainer } from '@react-navigation/na
 import { MainMenu } from './screens/MainMenu';
 import { Dev } from './screens/Dev';
 import { strings } from './translations/languages';
+import { Settings } from './screens/Settings';
 
 const Stack = createNativeStackNavigator();
 
@@ -32,6 +33,7 @@ const App: () => Node = () => {
         <Stack.Navigator initialRouteName="MainMenu">
           <Stack.Screen name="MainMenu" component={MainMenu} options={{headerShown:false}}/>
           <Stack.Screen name="Dev" component={Dev} options={{headerShown:false}}/>
+          <Stack.Screen name="Settings" component={Settings} options={{headerShown:false}}/>
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>
