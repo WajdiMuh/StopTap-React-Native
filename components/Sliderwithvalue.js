@@ -17,7 +17,7 @@ export const Sliderwithvalue: () => Node = (props) => {
             value={props.defaultvalue}
             thumbImage={require('../assets/imgs/thumb.png')}
         />
-        <Text style={{width: 20}}>{SliderValue}</Text>
+        <Text style={{width: 20,marginLeft: 10}}>{SliderValue}</Text>
       </View>
     );
   }
