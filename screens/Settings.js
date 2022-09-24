@@ -57,6 +57,9 @@ export const Settings: () => Node = ({ navigation }) => {
       <TouchableOpacity style={styles.vibratebutton} 
         onPress={()=> {
             setvibrate();
+            if(!isVibrateOn){
+                Vibration.vibrate();
+            }
             setIsVibrateOn(!isVibrateOn);
         }}
       >
