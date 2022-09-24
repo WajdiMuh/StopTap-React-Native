@@ -12,12 +12,14 @@ import {
   View,
   Image,
   TouchableOpacity,
-  Button
+  Button,
+  Vibration
 } from 'react-native';
 import {useTheme} from '@react-navigation/native'; 
 import { StopTapButton } from '../components/StopTapButton';
 import { strings } from '../translations/languages';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Sliderwithvalue } from '../components/Sliderwithvalue';
 
 export const Settings: () => Node = ({ navigation }) => {  
   const { colors } = useTheme();
@@ -63,6 +65,32 @@ export const Settings: () => Node = ({ navigation }) => {
           source={require('../assets/imgs/vibrate.png')}
         />
       </TouchableOpacity>
+      <Text style={styles.gap}>Music</Text>
+      <Sliderwithvalue
+        step={1}
+        minimumValue={0}
+        maximumValue={10}
+        valueset={(value)=>{
+            console.log(value);
+        }}
+        progresscolor={'black'}
+        remainingcolor={'#999999'}
+        defaultvalue={10}
+        style={[styles.slidervaluecontainer,styles.gap]}
+      />
+      <Text style={styles.gap}>SFX</Text>
+      <Sliderwithvalue
+        step={1}
+        minimumValue={0}
+        maximumValue={10}
+        valueset={(value)=>{
+            console.log(value);
+        }}
+        progresscolor={'black'}
+        remainingcolor={'#999999'}
+        defaultvalue={10}
+        style={styles.slidervaluecontainer}
+      />
       <StopTapButton
             bgcolor={colors.background}
             btcolor={colors.text}
@@ -112,4 +140,10 @@ const SettingsStyle = (colors:any) => StyleSheet.create({
     width: 40,
     height: 40
   },
+  slidervaluecontainer:{
+    width: '100%',
+  },
+  gap:{
+    marginBottom: 10
+  }
 });
