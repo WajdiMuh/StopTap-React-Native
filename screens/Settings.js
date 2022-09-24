@@ -106,7 +106,7 @@ export const Settings: () => Node = ({ navigation }) => {
           source={require('../assets/imgs/vibrate.png')}
         />
       </TouchableOpacity>
-      <Text style={styles.gap}>Music</Text>
+      <Text style={[styles.musicsfxtitle,styles.gap]}>Music</Text>
       <Sliderwithvalue
         step={1}
         minimumValue={0}
@@ -119,7 +119,7 @@ export const Settings: () => Node = ({ navigation }) => {
         defaultvalue={MusicValue}
         style={[styles.slidervaluecontainer,styles.gap]}
       />
-      <Text style={styles.gap}>SFX</Text>
+      <Text style={[styles.musicsfxtitle,styles.gap]}>SFX</Text>
       <Sliderwithvalue
         step={1}
         minimumValue={0}
@@ -183,6 +183,11 @@ const SettingsStyle = (colors:any) => StyleSheet.create({
   },
   slidervaluecontainer:{
     width: '100%',
+  },
+  musicsfxtitle:{
+    color: colors.text,
+    fontFamily: 'DotsAllForNowJL',
+    fontSize: 16
   },
   gap:{
     marginBottom: 10
