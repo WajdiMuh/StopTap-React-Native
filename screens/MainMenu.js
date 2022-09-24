@@ -11,14 +11,11 @@ import {
   View,
   Image,
   TouchableOpacity,
-  Dimensions
 } from 'react-native';
 import {useTheme} from '@react-navigation/native'; 
 import { MainMenuTitle } from '../components/MainMenuTitle';
 import { strings } from '../translations/languages';
 import { StopTapButton } from '../components/StopTapButton';
-
-const screen = Dimensions.get("screen");
 
 export const MainMenu: () => Node = ({ navigation }) => {  
   const { colors } = useTheme();
@@ -79,10 +76,10 @@ const MainMenuStyle = (colors:any) => StyleSheet.create({
   },
   title:{
     position:'absolute',
-    top: screen.height * 0.1
+    top: 40
   },
   titletext:{
-    fontSize: screen.width * 0.055,
+    fontSize: 40,
     color: colors.text,
     fontFamily: 'DotsAllForNowJL'
   },
