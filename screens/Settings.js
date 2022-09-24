@@ -25,6 +25,8 @@ export const Settings: () => Node = ({ navigation }) => {
   const { colors } = useTheme();
   const styles = SettingsStyle(colors);
   const [isVibrateOn, setIsVibrateOn] = useState(true);
+  const [MusicValue, setMusicValue] = useState(10);
+  const [SFXValue, setSFXValue] = useState(10);
   async function readvibrate() {
     try {
         const value = await AsyncStorage.getItem('vibrate');
@@ -42,8 +44,44 @@ export const Settings: () => Node = ({ navigation }) => {
 
     }
   }
+  async function readmusic() {
+    try {
+        const value = await AsyncStorage.getItem('music');
+        if(value !== null) {
+            setMusicValue(JSON.parse(value))
+        }
+    } catch(e) {
+
+    }
+  }
+  async function setmusic(musicvalue:Number) {
+    try {
+        await AsyncStorage.setItem('music', JSON.stringify(musicvalue));
+    } catch(e) {
+
+    }
+  }
+  async function readsfx() {
+    try {
+        const value = await AsyncStorage.getItem('sfx');
+        if(value !== null) {
+            setSFXValue(JSON.parse(value))
+        }
+    } catch(e) {
+
+    }
+  }
+  async function setsfx(sfxvalue:Number) {
+    try {
+        await AsyncStorage.setItem('sfx', JSON.stringify(sfxvalue));
+    } catch(e) {
+
+    }
+  }
   useEffect(() => {
         readvibrate();
+        readmusic();
+        readsfx();
     }, []);
   return (
     <View style={styles.container}>
@@ -74,11 +112,11 @@ export const Settings: () => Node = ({ navigation }) => {
         minimumValue={0}
         maximumValue={10}
         valueset={(value)=>{
-            console.log(value);
+            setmusic(value);
         }}
         progresscolor={'black'}
         remainingcolor={'#999999'}
-        defaultvalue={10}
+        defaultvalue={MusicValue}
         style={[styles.slidervaluecontainer,styles.gap]}
       />
       <Text style={styles.gap}>SFX</Text>
@@ -87,11 +125,11 @@ export const Settings: () => Node = ({ navigation }) => {
         minimumValue={0}
         maximumValue={10}
         valueset={(value)=>{
-            console.log(value);
+            setsfx(value);
         }}
         progresscolor={'black'}
         remainingcolor={'#999999'}
-        defaultvalue={10}
+        defaultvalue={SFXValue}
         style={styles.slidervaluecontainer}
       />
       <StopTapButton
