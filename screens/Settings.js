@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import type {Node} from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect,useContext } from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -17,7 +17,7 @@ import {
 } from 'react-native';
 import {useTheme} from '@react-navigation/native'; 
 import { StopTapButton } from '../components/StopTapButton';
-import { strings } from '../translations/languages';
+import { strings,langcontext } from '../translations/languages';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Sliderwithvalue } from '../components/Sliderwithvalue';
 
@@ -27,6 +27,7 @@ export const Settings: () => Node = ({ navigation }) => {
   const [isVibrateOn, setIsVibrateOn] = useState(true);
   const [MusicValue, setMusicValue] = useState(10);
   const [SFXValue, setSFXValue] = useState(10);
+  const {AppLang,SetAppLang} = useContext(langcontext);
   async function readvibrate() {
     try {
         const value = await AsyncStorage.getItem('vibrate');
@@ -86,7 +87,7 @@ export const Settings: () => Node = ({ navigation }) => {
   return (
     <View style={styles.container}>
         <Text style={styles.settingstitle}>Settings</Text>
-        <TouchableOpacity style={styles.languagebutton} onPress={()=>{navigation.navigate('Dev')}}>
+        <TouchableOpacity style={styles.languagebutton} onPress={()=>{navigation.navigate('Languages')}}>
         <Image
           style={styles.languagebuttonimg}
           source={require('../assets/imgs/language.png')}

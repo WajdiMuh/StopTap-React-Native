@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import {Node, useState} from 'react';
+import {Node, useState,useContext} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -14,12 +14,13 @@ import {
 } from 'react-native';
 import {useTheme} from '@react-navigation/native'; 
 import { MainMenuTitle } from '../components/MainMenuTitle';
-import { strings } from '../translations/languages';
+import { strings,langcontext   } from '../translations/languages';
 import { StopTapButton } from '../components/StopTapButton';
 
 export const MainMenu: () => Node = ({ navigation }) => {  
   const { colors } = useTheme();
-  const styles = MainMenuStyle(colors)
+  const styles = MainMenuStyle(colors);
+  const {AppLang,SetAppLang} = useContext(langcontext);
   return (
     <View style={styles.container}>
       <MainMenuTitle style={styles.title}>

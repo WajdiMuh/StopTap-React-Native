@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import type {Node} from 'react';
+import type {Node, useContext} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -17,11 +17,12 @@ import {useTheme} from '@react-navigation/native';
 import { Devimg } from '../components/Devimg';
 import { StopTapButton } from '../components/StopTapButton';
 import { Devname } from '../components/Devname';
-import { strings } from '../translations/languages';
+import { strings,langcontext } from '../translations/languages';
 
 export const Dev: () => Node = ({ navigation }) => {  
   const { colors } = useTheme();
-  const styles = DevStyle(colors)
+  const styles = DevStyle(colors);
+  const {AppLang,SetAppLang} = useContext(langcontext);
   return (
     <View style={styles.container}>
       <Text style={styles.textabove}>Developed By</Text>
