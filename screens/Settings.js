@@ -86,7 +86,7 @@ export const Settings: () => Node = ({ navigation }) => {
     }, []);
   return (
     <View style={styles.container}>
-        <Text style={styles.settingstitle}>Settings</Text>
+        <Text style={styles.settingstitle}>{strings.settings.title}</Text>
         <TouchableOpacity style={styles.languagebutton} onPress={()=>{navigation.navigate('Languages')}}>
         <Image
           style={styles.languagebuttonimg}
@@ -107,7 +107,7 @@ export const Settings: () => Node = ({ navigation }) => {
           source={require('../assets/imgs/vibrate.png')}
         />
       </TouchableOpacity>
-      <Text style={[styles.musicsfxtitle,styles.gap]}>Music</Text>
+      <Text style={[styles.musicsfxtitle,styles.gap]}>{strings.settings.music}</Text>
       <Sliderwithvalue
         step={1}
         minimumValue={0}
@@ -120,7 +120,7 @@ export const Settings: () => Node = ({ navigation }) => {
         defaultvalue={MusicValue}
         style={[styles.slidervaluecontainer,styles.gap]}
       />
-      <Text style={[styles.musicsfxtitle,styles.gap]}>SFX</Text>
+      <Text style={[styles.musicsfxtitle,styles.gap]}>{strings.settings.sfx}</Text>
       <Sliderwithvalue
         step={1}
         minimumValue={0}
