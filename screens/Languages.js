@@ -26,7 +26,7 @@ export const Languages: () => Node = ({ navigation }) => {
     const {AppLang,SetAppLang} = useContext(langcontext);
     return (
         <View style={styles.container}>
-            <Text style={styles.languagestitle}>Languages</Text>
+            <Text style={styles.languagestitle}>{strings.Languages.title}</Text>
             <FlatList
                 style={styles.langlist}
                 data={Object.entries(strings.languages).map(x => { return {"lang": x[0], "value": x[1]}})}
@@ -36,7 +36,7 @@ export const Languages: () => Node = ({ navigation }) => {
                             strings.setLanguage(item.lang);
                             SetAppLang(item.lang);
                         }}>
-                            <Text style={{textAlign:'center',borderBottomColor:'black',borderBottomWidth:2,paddingVertical:10}}>{item.value}</Text>
+                            <Text style={styles.languageitem}>{item.value}</Text>
                         </TouchableOpacity>
                     )}
                 keyExtractor={item => item.lang}
@@ -59,15 +59,25 @@ const LanguagesStyle = (colors:any) => StyleSheet.create({
     },
     langlist:{
         alignSelf: 'stretch',
-        paddingHorizontal: 10
+        paddingHorizontal: 10,
+        marginTop: 10
     },
     languagestitle:{
         color: colors.text,
         fontFamily: 'DotsAllForNowJL',
         fontSize: 30,
-        marginTop: 10
+        marginTop: 10,
     },
     backbtn:{
         marginBottom: 20,
     },
+    languageitem:{
+        textAlign:'center',
+        borderBottomColor:'black',
+        borderBottomWidth:2,
+        paddingVertical:10,
+        color: colors.text,
+        fontFamily: 'DotsAllForNowJL',
+        fontSize: 20
+    }
 });
