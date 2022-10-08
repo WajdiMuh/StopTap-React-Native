@@ -22,24 +22,41 @@ export default {
         thxforplaying: "Thanks For Playing"
     },
     shop:{
+        title: "Shop",
         buy: "Buy",
         select: "Select",
         selected: "Selected",
-        noenoughcoins: "You Don't Have\nEnough Coins"
+        noenoughcoins: "You Don't Have\nEnough Coins",
+        coins: "Coins"
     },
     shopitems:{
-        redandblue: "Red And Blue",
-        greenandpink: "Green And Pink",
-        blueandorange: "Blue And Orange",
-        purpleandgreen: "Purple And Green",
-        blueandyellow: "Blue And Yellow",
-        brownandyellow: "Brown And Yellow",
-        greyandred: "Grey And Red",
-        lightblueandpink: "Light Blue And Pink",
-        lightbrownandlightgreen: "Light Brown And Light Green",
-        lightgreenandblue: "Light Green And Blue",
-        oliveandorange: "Olive And Orange",
-        lightpinkandfuschia: "Light Pink And Fuschia"
+        colorshopitem:{
+            redandblue: "Red And Blue",
+            greenandpink: "Green And Pink",
+            blueandorange: "Blue And Orange",
+            purpleandgreen: "Purple And Green",
+            blueandyellow: "Blue And Yellow",
+            brownandyellow: "Brown And Yellow",
+            greyandred: "Grey And Red",
+            lightblueandpink: "Light Blue And Pink",
+            lightbrownandlightgreen: "Light Brown And Light Green",
+            lightgreenandblue: "Light Green And Blue",
+            oliveandorange: "Olive And Orange",
+            lightpinkandfuschia: "Light Pink And Fuschia",
+        },
+        colorselectorshopitem:{
+            colorpicker: "Color Picker\nChoose Your Own Color",
+            smallboxcolor: "Small Box\nColor",
+            bigboxcolor: "Big Box\nColor",
+            samecolorwhiteblack: "The Boxes Can't Be White or Black\nAnd They Can't Have The Same Color"
+        },
+        coinsmultiplieritem:{
+            doublecoins: "x2\nDouble Your Coins",
+            triplecoins: "x3\nTriple Your Coins"
+        },
+        extralifeitem:{
+            extralife: "Extra Life\nYou Will Now Have 4 Lives"
+        }
     },
     languages: {
         ar: "Arabic",

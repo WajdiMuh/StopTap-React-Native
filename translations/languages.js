@@ -6,4 +6,4 @@ export const strings = new LocalizedStrings({
     "en": english,
     "ar": arabic
 });
-export const langcontext = createContext("en");
+export const langcontext = createContext();
