@@ -15,9 +15,9 @@ export const Sliderwithvalue: () => Node = (props) => {
             onSlidingComplete={(value)=>{props.valueset(value)}}
             style={{flex: 1}}
             value={props.defaultvalue}
-            thumbImage={require('../assets/imgs/thumb.png')}
+            thumbImage={props.thumbtheme === 'light' ? require('../assets/imgs/thumb.png') : require('../assets/imgs/thumb-nm.png')}
         />
-        <Text style={{width: 20,marginLeft: 10, fontFamily: 'DotsAllForNowJL'}}>{SliderValue}</Text>
+        <Text style={{width: 20,marginLeft: 10, fontFamily: 'DotsAllForNowJL', color: props.textcolor}}>{SliderValue}</Text>
       </View>
     );
   }
