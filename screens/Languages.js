@@ -73,7 +73,7 @@ const LanguagesStyle = (colors:any) => StyleSheet.create({
     },
     languageitem:{
         textAlign:'center',
-        borderBottomColor:'black',
+        borderBottomColor: colors.text,
         borderBottomWidth:2,
         paddingVertical:10,
         color: colors.text,
