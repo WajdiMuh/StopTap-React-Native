@@ -13,14 +13,15 @@ import {
   Image,
   TouchableOpacity,
   Button,
-  Vibration
+  Vibration,
 } from 'react-native';
 import {useTheme} from '@react-navigation/native'; 
 import { StopTapButton } from '../components/StopTapButton';
 import { strings,langcontext } from '../translations/languages';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Sliderwithvalue } from '../components/Sliderwithvalue';
-
+import Icon from 'react-native-vector-icons/Ionicons';
+import { themecontext } from '../App';
 export const Settings: () => Node = ({ navigation }) => {  
   const { colors } = useTheme();
   const styles = SettingsStyle(colors);
@@ -28,6 +29,7 @@ export const Settings: () => Node = ({ navigation }) => {
   const [MusicValue, setMusicValue] = useState(10);
   const [SFXValue, setSFXValue] = useState(10);
   const {AppLang,SetAppLang} = useContext(langcontext);
+  const {AppTheme,SetAppTheme} = useContext(themecontext);
   async function readvibrate() {
     try {
         const value = await AsyncStorage.getItem('vibrate');
@@ -93,6 +95,14 @@ export const Settings: () => Node = ({ navigation }) => {
           source={require('../assets/imgs/language.png')}
         />
       </TouchableOpacity>
+      <TouchableOpacity style={styles.nightmodebutton} onPress={()=>{
+        SetAppTheme(AppTheme === 'light' ? 'dark' : 'light');
+      }}>
+        {AppTheme === 'light' ? 
+        <Icon name={"moon"} size={40} color={"#727272"}></Icon> 
+        : 
+        <Icon name={"sunny"} size={40} color={"#727272"}></Icon>}
+      </TouchableOpacity>
       <TouchableOpacity style={styles.vibratebutton} 
         onPress={()=> {
             setvibrate();
@@ -115,8 +125,10 @@ export const Settings: () => Node = ({ navigation }) => {
         valueset={(value)=>{
             setmusic(value);
         }}
-        progresscolor={'black'}
+        progresscolor={colors.text}
         remainingcolor={'#999999'}
+        thumbtheme={AppTheme}
+        textcolor={colors.text}
         defaultvalue={MusicValue}
         style={[styles.slidervaluecontainer,styles.gap]}
       />
@@ -128,8 +140,10 @@ export const Settings: () => Node = ({ navigation }) => {
         valueset={(value)=>{
             setsfx(value);
         }}
-        progresscolor={'black'}
+        progresscolor={colors.text}
         remainingcolor={'#999999'}
+        thumbtheme={AppTheme}
+        textcolor={colors.text}
         defaultvalue={SFXValue}
         style={styles.slidervaluecontainer}
       />
@@ -181,6 +195,11 @@ const SettingsStyle = (colors:any) => StyleSheet.create({
   languagebuttonimg:{
     width: 40,
     height: 40
+  },
+  nightmodebutton:{
+    position: 'absolute',
+    left: 10,
+    bottom: 10
   },
   slidervaluecontainer:{
     width: '100%',
