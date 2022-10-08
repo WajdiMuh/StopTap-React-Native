@@ -5,6 +5,7 @@ export const Box: () => Node = (props) => {
       <View
         style={{
           ...props.style,
+          backgroundColor: props.color,
           borderColor: props.btcolor,
           borderRadius: 5,
           borderWidth: 6,
