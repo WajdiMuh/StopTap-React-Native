@@ -15,7 +15,7 @@ export const StopTapButton: () => Node = (props) => {
             >
             <View style={{alignItems: 'center',backgroundColor: props.bgcolor}}>
                 {(props.children === undefined) ? (
-                    <Text style={{padding: 4, color: props.btcolor ,fontFamily: 'DotsAllForNowJL', fontSize: 17}}>{props.title}</Text>
+                    <Text style={{padding: 4, color: props.btcolor ,fontFamily: 'DotsAllForNowJL', fontSize: 17, textAlign: 'center'}}>{props.title}</Text>
                 ):(
                     props.children
                 )}
