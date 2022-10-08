@@ -1,4 +1,4 @@
-package com.stoptap.newarchitecture;
+package com.wajdielmuhtadi.stoptap.newarchitecture;
 
 import android.app.Application;
 import androidx.annotation.NonNull;
@@ -19,9 +19,9 @@ import com.facebook.react.fabric.CoreComponentsRegistry;
 import com.facebook.react.fabric.FabricJSIModuleProvider;
 import com.facebook.react.fabric.ReactNativeConfig;
 import com.facebook.react.uimanager.ViewManagerRegistry;
-import com.stoptap.BuildConfig;
-import com.stoptap.newarchitecture.components.MainComponentsRegistry;
-import com.stoptap.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
+import com.wajdielmuhtadi.stoptap.BuildConfig;
+import com.wajdielmuhtadi.stoptap.newarchitecture.components.MainComponentsRegistry;
+import com.wajdielmuhtadi.stoptap.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
 import java.util.ArrayList;
 import java.util.List;
 

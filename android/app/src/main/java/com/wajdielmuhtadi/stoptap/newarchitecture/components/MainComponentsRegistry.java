@@ -1,4 +1,4 @@
-package com.stoptap.newarchitecture.components;
+package com.wajdielmuhtadi.stoptap.newarchitecture.components;
 
 import com.facebook.jni.HybridData;
 import com.facebook.proguard.annotations.DoNotStrip;
