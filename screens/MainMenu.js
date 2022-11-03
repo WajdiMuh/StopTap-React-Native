@@ -41,7 +41,7 @@ export const MainMenu: () => Node = ({ navigation }) => {
       <StopTapButton
           bgcolor={colors.background}
           btcolor={colors.text}
-          onPress={()=> {navigation.pop()}}
+          onPress={()=> {navigation.navigate('Game')}}
           title={strings.mainmenu.play}
           style={styles.gap}
       />
