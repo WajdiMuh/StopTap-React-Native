@@ -14,6 +14,7 @@ import {
   TouchableOpacity,
   Button,
   FlatList,
+  AppState
 } from 'react-native';
 import {useTheme} from '@react-navigation/native'; 
 import { StopTapButton } from '../components/StopTapButton';
@@ -23,6 +24,7 @@ import Icon from 'react-native-vector-icons/Octicons';
 import { shopitems } from '../shop/shopitems';
 import Toast from 'react-native-toast-message';
 import Sound from 'react-native-sound';
+import { Coinshud } from '../components/Coinshud';
 export const coinscontext = createContext(0);
 export const selectedcolorcontext = createContext();
 export const Shop: () => Node = ({ navigation }) => {  
@@ -65,16 +67,23 @@ export const Shop: () => Node = ({ navigation }) => {
             }
             shopbackgroundmusic.setVolume(1);
             shopbackgroundmusic.setNumberOfLoops(-1);
-            //shopbackgroundmusic.play();
+            shopbackgroundmusic.play();
             readselectedcolor();
         });
+        const subscription = AppState.addEventListener("change", nextAppState => {
+            if (nextAppState === "active" && !shopbackgroundmusic.isPlaying()) {
+                shopbackgroundmusic.play();
+            }else if (nextAppState === "background"){
+                shopbackgroundmusic.pause();
+            }
+        });      
         return () => {
             shopbackgroundmusic.release();
+            subscription.remove();
         };
       }, []);
       useEffect(() => {
         if(ColorSelected !== -1){
-            console.log("changed");
             setselectedcolor();
         }
       },[ColorSelected]);
@@ -85,7 +94,7 @@ export const Shop: () => Node = ({ navigation }) => {
                 bgcolor={colors.background}
                 btcolor={colors.text} 
                 style={styles.switchitembutton} 
-                disabled={Page === 0}
+                disabled={(Page === 0) || (Page === -1)}
                 onPress={
                     ()=>{
                         Toast.hide();
@@ -106,7 +115,7 @@ export const Shop: () => Node = ({ navigation }) => {
                 bgcolor={colors.background}
                 btcolor={colors.text} 
                 style={styles.switchitembutton} 
-                disabled={Page === (shopitems.length - 1)}
+                disabled={(Page === (shopitems.length - 1)) || (Page === -1)}
                 onPress={
                     ()=>{
                         Toast.hide();
@@ -126,12 +135,7 @@ export const Shop: () => Node = ({ navigation }) => {
                 title={strings.general.back}
                 style={styles.backbtn}
             />
-            <View style={styles.coincontainer}>            
-                <Image
-                    style={styles.coinimg}
-                    source={require('../assets/imgs/coin.png')}/>
-                    <Text style={styles.coinstext}>{numberformatter.format(Coins)}</Text>
-            </View>
+            <Coinshud style={styles.coincontainer} coins={numberformatter.format(Coins)} textcolor={colors.text}/>
         </View>
     );
 };
@@ -168,17 +172,6 @@ const ShopStyle = (colors:any) => StyleSheet.create({
         position: 'absolute',
         top: 10,
         left: 10,
-        flexDirection:'row',
-        alignItems:'center'
-    },
-    coinimg:{
-        width:40,
-        height: 40
-    },
-    coinstext:{
-        color: colors.text,
-        fontFamily: 'DotsAllForNowJL',
-        fontSize: 22,
     },
     backbtn:{
         position: 'absolute',
