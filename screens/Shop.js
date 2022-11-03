@@ -13,6 +13,7 @@ import {
   TouchableOpacity,
   Button,
   FlatList,
+  AppState
 } from 'react-native';
 import {useTheme} from '@react-navigation/native'; 
 import { StopTapButton } from '../components/StopTapButton';
@@ -23,6 +24,7 @@ import { shopitems } from '../shop/shopitems';
 import Toast from 'react-native-toast-message';
 import Sound from 'react-native-sound';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { Coinshud } from '../components/Coinshud';
 export const coinscontext = createContext(0);
 export const selectedcolorcontext = createContext();
 export const Shop: () => Node = ({ navigation }) => {  
@@ -65,11 +67,19 @@ export const Shop: () => Node = ({ navigation }) => {
             }
             shopbackgroundmusic.setVolume(1);
             shopbackgroundmusic.setNumberOfLoops(-1);
-            //shopbackgroundmusic.play();
+            shopbackgroundmusic.play();
             readselectedcolor();
         });
+        const subscription = AppState.addEventListener("change", nextAppState => {
+            if (nextAppState === "active" && !shopbackgroundmusic.isPlaying()) {
+                shopbackgroundmusic.play();
+            }else if (nextAppState === "background"){
+                shopbackgroundmusic.pause();
+            }
+        });      
         return () => {
             shopbackgroundmusic.release();
+            subscription.remove();
         };
       }, []);
       useEffect(() => {
@@ -182,17 +192,6 @@ const ShopStyle = (colors:any) => StyleSheet.create({
         position: 'absolute',
         top: 10,
         left: 10,
-        flexDirection:'row',
-        alignItems:'center'
-    },
-    coinimg:{
-        width:40,
-        height: 40
-    },
-    coinstext:{
-        color: colors.text,
-        fontFamily: 'DotsAllForNowJL',
-        fontSize: 22,
     },
     backbtn:{
         position: 'absolute',

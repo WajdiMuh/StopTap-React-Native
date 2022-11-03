@@ -64,9 +64,9 @@ export const MainMenu: () => Node = ({ navigation }) => {
           btcolor={colors.text}
           onPress={()=> {
             Toast.hide();
-            navigation.pop();
+            navigation.navigate('Game');
           }}
-          title={strings.mainmenu.howtoplay}
+          title={strings.mainmenu.play}
           style={styles.gap}
         />
         <StopTapButton

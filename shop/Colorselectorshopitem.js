@@ -19,7 +19,6 @@ import Toast from 'react-native-toast-message';
 import { coinscontext,selectedcolorcontext } from '../screens/Shop';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ColorPicker from "@bayramitto/react-native-colorpicker";
-//TODO save selection
 export const Colorselectorshopitem: () => Node = (props) => {
     const { colors } = useTheme();
     const styles = ColorselectorshopitemStyle(colors,props);

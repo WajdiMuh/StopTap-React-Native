@@ -23,7 +23,8 @@ import { Settings } from './screens/Settings';
 import { Languages } from './screens/Languages';
 import { Shop } from './screens/Shop';
 import Toast from 'react-native-toast-message';
-import { toastConfig } from './components/Stoptaptoast';
+import { toastConfig } from './components/Stoptaptoast'
+import { Game } from './screens/Game';
 import { shopanim,leaderboardanim,miscellaneousanim } from './screens/ScreenTransitions';
 import SplashScreen from 'react-native-splash-screen';
 import { GameOver } from './screens/GameOver';
@@ -52,7 +53,7 @@ const App: () => Node = () => {
           <langcontext.Provider value={{AppLang,SetAppLang}}>
             <StatusBar hidden={true} />
               <NavigationContainer theme={AppTheme === 'dark' ? DarkTheme : DefaultTheme}>
-                <Stack.Navigator initialRouteName="MainMenu" screenOptions={{headerShown:false,cardStyleInterpolator: miscellaneousanim}} >
+              <Stack.Navigator initialRouteName="MainMenu" screenOptions={{headerShown:false,cardStyleInterpolator: miscellaneousanim}} >
                   <Stack.Screen name="MainMenu" component={MainMenu}/>
                   <Stack.Screen name="Dev" component={Dev}/>
                   <Stack.Screen name="Settings" component={Settings}/>
