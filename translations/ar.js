@@ -3,7 +3,7 @@ export default {
         play: "إلعب",
         howtoplay: "كيفية اللعب",
         shop: "المتجر",
-        account: "الحساب"
+        leaderboard: "المتصدرين",
     },
     general: {
         back: "عودة"
@@ -57,6 +57,14 @@ export default {
         extralifeitem:{
             extralife: "روح اضافية\nسيكون لديك ٤ أرواح"
         }
+    },
+    gameover:{
+        score: "النتيجة : ",
+        gameover: "انتهت اللعبة",
+        playagain: "العب مرة أخرى",
+        menu: "القائمة",
+        leaderboard: "المتصدرين",
+        highscore: "أعلى نتيجة : "
     },
     languages: {
         ar: "العربية\nمختار",

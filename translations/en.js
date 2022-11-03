@@ -3,7 +3,7 @@ export default {
         play: "Play",
         howtoplay: "How To Play",
         shop: "Shop",
-        account: "Account"
+        leaderboard: "Leaderboard",
     },
     general: {
         back: "Back"
@@ -57,6 +57,14 @@ export default {
         extralifeitem:{
             extralife: "Extra Life\nYou Will Now Have 4 Lives"
         }
+    },
+    gameover:{
+        score: "Score : ",
+        gameover: "Game Over",
+        playagain: "Play Again",
+        menu: "Menu",
+        leaderboard: "Leaderboard",
+        highscore: "HighScore : "
     },
     languages: {
         ar: "Arabic",
