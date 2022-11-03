@@ -3,7 +3,6 @@ import React from 'react';
 import type {Node} from 'react';
 import { useState, useEffect,useContext } from 'react';
 import {
-  SafeAreaView,
   ScrollView,
   StatusBar,
   StyleSheet,
@@ -22,6 +21,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Sliderwithvalue } from '../components/Sliderwithvalue';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { themecontext } from '../App';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 export const Settings: () => Node = ({ navigation }) => {  
   const { colors } = useTheme();
   const styles = SettingsStyle(colors);
@@ -87,79 +87,89 @@ export const Settings: () => Node = ({ navigation }) => {
         readsfx();
     }, []);
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.uppercontainer}>
         <Text style={styles.settingstitle}>{strings.settings.title}</Text>
         <TouchableOpacity style={styles.languagebutton} onPress={()=>{navigation.navigate('Languages')}}>
-        <Image
-          style={styles.languagebuttonimg}
-          source={require('../assets/imgs/language.png')}
+          <Image
+            style={styles.languagebuttonimg}
+            source={require('../assets/imgs/language.png')}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.vibratebutton} 
+          onPress={()=> {
+              setvibrate();
+              if(!isVibrateOn){
+                  Vibration.vibrate();
+              }
+              setIsVibrateOn(!isVibrateOn);
+          }}
+        >
+          <Image
+            style={[styles.vibratebuttonimg, isVibrateOn && styles.vibrateon]}
+            source={require('../assets/imgs/vibrate.png')}
+          />
+        </TouchableOpacity>
+      </View>
+      <View style={styles.midcontainer}>
+        <Text style={[styles.musicsfxtitle,styles.gap]}>{strings.settings.music}</Text>
+        <Sliderwithvalue
+          step={1}
+          minimumValue={0}
+          maximumValue={10}
+          valueset={(value)=>{
+              setmusic(value);
+          }}
+          progresscolor={colors.text}
+          remainingcolor={'#999999'}
+          textcolor={colors.text}
+          defaultvalue={MusicValue}
+          style={[styles.slidervaluecontainer,styles.gap]}
         />
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.nightmodebutton} onPress={()=>{
-        SetAppTheme(AppTheme === 'light' ? 'dark' : 'light');
-      }}>
-        {AppTheme === 'light' ? 
-        <Icon name={"moon"} size={40} color={"#727272"}></Icon> 
-        : 
-        <Icon name={"sunny"} size={40} color={"#727272"}></Icon>}
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.vibratebutton} 
-        onPress={()=> {
-            setvibrate();
-            if(!isVibrateOn){
-                Vibration.vibrate();
-            }
-            setIsVibrateOn(!isVibrateOn);
-        }}
-      >
-        <Image
-          style={[styles.vibratebuttonimg, isVibrateOn && styles.vibrateon]}
-          source={require('../assets/imgs/vibrate.png')}
+        <Text style={[styles.musicsfxtitle,styles.gap]}>{strings.settings.sfx}</Text>
+        <Sliderwithvalue
+          step={1}
+          minimumValue={0}
+          maximumValue={10}
+          valueset={(value)=>{
+              setsfx(value);
+          }}
+          progresscolor={colors.text}
+          remainingcolor={'#999999'}
+          textcolor={colors.text}
+          defaultvalue={SFXValue}
+          style={styles.slidervaluecontainer}
         />
-      </TouchableOpacity>
-      <Text style={[styles.musicsfxtitle,styles.gap]}>{strings.settings.music}</Text>
-      <Sliderwithvalue
-        step={1}
-        minimumValue={0}
-        maximumValue={10}
-        valueset={(value)=>{
-            setmusic(value);
-        }}
-        progresscolor={colors.text}
-        remainingcolor={'#999999'}
-        thumbtheme={AppTheme}
-        textcolor={colors.text}
-        defaultvalue={MusicValue}
-        style={[styles.slidervaluecontainer,styles.gap]}
-      />
-      <Text style={[styles.musicsfxtitle,styles.gap]}>{strings.settings.sfx}</Text>
-      <Sliderwithvalue
-        step={1}
-        minimumValue={0}
-        maximumValue={10}
-        valueset={(value)=>{
-            setsfx(value);
-        }}
-        progresscolor={colors.text}
-        remainingcolor={'#999999'}
-        thumbtheme={AppTheme}
-        textcolor={colors.text}
-        defaultvalue={SFXValue}
-        style={styles.slidervaluecontainer}
-      />
-      <StopTapButton
-            bgcolor={colors.background}
-            btcolor={colors.text}
-            onPress={()=> {navigation.pop()}}
-            title={strings.general.back}
-            style={styles.backbtn}
-        />
-    </View>
+      </View>
+      <View>
+        <StopTapButton
+              bgcolor={colors.background}
+              btcolor={colors.text}
+              onPress={()=> {navigation.pop()}}
+              title={strings.general.back}
+              style={styles.backbtn}
+          />
+        <TouchableOpacity style={styles.nightmodebutton} onPress={()=>{
+          SetAppTheme(AppTheme === 'light' ? 'dark' : 'light');
+        }}>
+          {AppTheme === 'light' ? 
+          <Icon name={"moon"} size={40} color={"#727272"}></Icon> 
+          : 
+          <Icon name={"sunny"} size={40} color={"#727272"}></Icon>}
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
   );
 };
 
 const SettingsStyle = (colors:any) => StyleSheet.create({
   container:{
+    flex: 1
+  },
+  uppercontainer:{
+    alignItems:'center'
+  },
+  midcontainer:{
     alignItems: 'center',
     justifyContent: 'center',
     flex: 1,
@@ -168,12 +178,11 @@ const SettingsStyle = (colors:any) => StyleSheet.create({
     color: colors.text,
     fontFamily: 'DotsAllForNowJL',
     fontSize: 30,
-    position: 'absolute',
-    top: 10
+    marginTop: 10
   },
   backbtn:{
-    position: 'absolute',
-    bottom: 20,
+    alignSelf: 'center',
+    marginBottom: 10
   },
   vibratebutton:{
     position: 'absolute',

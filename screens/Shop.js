@@ -3,7 +3,6 @@ import React from 'react';
 import type {Node} from 'react';
 import { useState, useEffect,useContext,createContext,useRef } from 'react';
 import {
-  SafeAreaView,
   ScrollView,
   StatusBar,
   StyleSheet,
@@ -23,6 +22,7 @@ import Icon from 'react-native-vector-icons/Octicons';
 import { shopitems } from '../shop/shopitems';
 import Toast from 'react-native-toast-message';
 import Sound from 'react-native-sound';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 export const coinscontext = createContext(0);
 export const selectedcolorcontext = createContext();
 export const Shop: () => Node = ({ navigation }) => {  
@@ -74,75 +74,89 @@ export const Shop: () => Node = ({ navigation }) => {
       }, []);
       useEffect(() => {
         if(ColorSelected !== -1){
-            console.log("changed");
             setselectedcolor();
         }
       },[ColorSelected]);
     return (
-        <View style={styles.container}>
-            <Text style={styles.shoptitle}>{strings.shop.title}</Text>
-            <StopTapButton
-                bgcolor={colors.background}
-                btcolor={colors.text} 
-                style={styles.switchitembutton} 
-                disabled={Page === 0}
-                onPress={
-                    ()=>{
-                        Toast.hide();
-                        setPage(Page - 1);
-                    }
-                }
-            >
-                <Icon name="chevron-left" color={colors.text} size={40} style={styles.switchitembuttonicon}/>
-            </StopTapButton>
-            <coinscontext.Provider value={{Coins,setCoins}}>
-                <selectedcolorcontext.Provider value={{ColorSelected,setColorSelected}}>
-                    <View style={styles.item}>
-                        {(Page !== -1) && shopitems[Page]}
-                    </View>
-                </selectedcolorcontext.Provider>
-            </coinscontext.Provider>
-            <StopTapButton 
-                bgcolor={colors.background}
-                btcolor={colors.text} 
-                style={styles.switchitembutton} 
-                disabled={Page === (shopitems.length - 1)}
-                onPress={
-                    ()=>{
-                        Toast.hide();
-                        setPage(Page + 1);
-                    }
-                }
-            >
-                <Icon name="chevron-right" color={colors.text} size={40} style={styles.switchitembuttonicon}/>
-            </StopTapButton>
-            <StopTapButton
-                bgcolor={colors.background}
-                btcolor={colors.text}
-                onPress={()=> {
-                    Toast.hide();
-                    navigation.pop();
-                }}
-                title={strings.general.back}
-                style={styles.backbtn}
-            />
-            <View style={styles.coincontainer}>            
-                <Image
-                    style={styles.coinimg}
-                    source={require('../assets/imgs/coin.png')}/>
-                    <Text style={styles.coinstext}>{numberformatter.format(Coins)}</Text>
+        <SafeAreaView style={styles.container}>
+            <View style={styles.uppercontainer}>
+                <Text style={styles.shoptitle}>{strings.shop.title}</Text>
+                <View style={styles.coincontainer}>            
+                    <Image
+                        style={styles.coinimg}
+                        source={require('../assets/imgs/coin.png')}/>
+                        <Text style={styles.coinstext}>{numberformatter.format(Coins)}</Text>
+                </View>
             </View>
-        </View>
+            <View style={styles.midcontainer}>
+                <StopTapButton
+                    bgcolor={colors.background}
+                    btcolor={colors.text} 
+                    style={styles.switchitembutton} 
+                    disabled={Page === 0}
+                    onPress={
+                        ()=>{
+                            Toast.hide();
+                            setPage(Page - 1);
+                        }
+                    }
+                >
+                    <Icon name="chevron-left" color={colors.text} size={40} style={styles.switchitembuttonicon}/>
+                </StopTapButton>
+                <coinscontext.Provider value={{Coins,setCoins}}>
+                    <selectedcolorcontext.Provider value={{ColorSelected,setColorSelected}}>
+                        <View style={styles.item}>
+                            {(Page !== -1) && shopitems[Page]}
+                        </View>
+                    </selectedcolorcontext.Provider>
+                </coinscontext.Provider>
+                <StopTapButton 
+                    bgcolor={colors.background}
+                    btcolor={colors.text} 
+                    style={styles.switchitembutton} 
+                    disabled={Page === (shopitems.length - 1)}
+                    onPress={
+                        ()=>{
+                            Toast.hide();
+                            setPage(Page + 1);
+                        }
+                    }
+                >
+                    <Icon name="chevron-right" color={colors.text} size={40} style={styles.switchitembuttonicon}/>
+                </StopTapButton>
+            </View>
+            <View style={styles.bottomcontainer}>
+                <StopTapButton
+                    bgcolor={colors.background}
+                    btcolor={colors.text}
+                    onPress={()=> {
+                        Toast.hide();
+                        navigation.pop();
+                    }}
+                    title={strings.general.back}
+                    style={styles.backbtn}
+                />
+            </View>
+        </SafeAreaView>
     );
 };
 
 const ShopStyle = (colors:any) => StyleSheet.create({
     container:{
+        flex: 1
+    },
+    uppercontainer:{
+        alignItems:'center'
+    },
+    midcontainer:{
         flex: 1,
         alignItems:'center',   
         justifyContent: 'center',
         flexDirection: 'row',
-        paddingHorizontal: 10
+        paddingHorizontal: 10,
+    },
+    bottomcontainer:{
+        alignItems: 'center'
     },
     shoptitle:{
         color: colors.text,
@@ -182,6 +196,6 @@ const ShopStyle = (colors:any) => StyleSheet.create({
     },
     backbtn:{
         position: 'absolute',
-        bottom: 20,
+        bottom: 10,
     }
 });

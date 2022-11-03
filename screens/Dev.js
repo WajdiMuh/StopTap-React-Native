@@ -3,7 +3,6 @@ import React from 'react';
 import type {Node} from 'react';
 import { useContext } from 'react';
 import {
-  SafeAreaView,
   ScrollView,
   StatusBar,
   StyleSheet,
@@ -19,22 +18,24 @@ import { Devimg } from '../components/Devimg';
 import { StopTapButton } from '../components/StopTapButton';
 import { Devname } from '../components/Devname';
 import { strings } from '../translations/languages';
-
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 export const Dev: () => Node = ({ navigation }) => {  
   const { colors } = useTheme();
   const styles = DevStyle(colors);
   return (
-    <View style={styles.container}>
-      <Text style={styles.textabove}>{strings.dev.developedby}</Text>
-      <Devname style={styles.textabove} color={colors.text} interval={500}>
-        {strings.dev.name}
-      </Devname>
-      <Devimg>  
-        <Image style={styles.devimg}
-          source={require('../assets/imgs/wajdi.png')}
-        />
-      </Devimg>
-      <Text style={styles.textbelow}>{strings.dev.thxforplaying}</Text>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.datacontainer}>
+        <Text style={styles.textabove}>{strings.dev.developedby}</Text>
+        <Devname style={styles.textabove} color={colors.text} interval={500}>
+          {strings.dev.name}
+        </Devname>
+        <Devimg>  
+          <Image style={styles.devimg}
+            source={require('../assets/imgs/wajdi.png')}
+          />
+        </Devimg>
+        <Text style={styles.textbelow}>{strings.dev.thxforplaying}</Text>
+      </View>
       <StopTapButton
         bgcolor={colors.background}
         btcolor={colors.text}
@@ -42,12 +43,15 @@ export const Dev: () => Node = ({ navigation }) => {
         title={strings.general.back}
         style={styles.backbtn}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 
 const DevStyle = (colors:any) => StyleSheet.create({
   container:{
+    flex: 1
+  },
+  datacontainer:{
     alignItems: 'center',
     justifyContent: 'center',
     flex: 1,
@@ -63,7 +67,7 @@ const DevStyle = (colors:any) => StyleSheet.create({
     color: colors.text
   },
   backbtn:{
-    position: 'absolute',
-    bottom: 20,
+    alignSelf: 'center',
+    marginBottom: 10
   }
 });
