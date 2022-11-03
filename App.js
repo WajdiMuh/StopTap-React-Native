@@ -24,6 +24,7 @@ import { Languages } from './screens/Languages';
 import { Shop } from './screens/Shop';
 import Toast from 'react-native-toast-message';
 import { toastConfig } from './components/Stoptaptoast'
+import { Game } from './screens/Game';
 export const themecontext = createContext();
 const App: () => Node = () => {
   const Stack = createNativeStackNavigator();
@@ -42,6 +43,7 @@ const App: () => Node = () => {
                   <Stack.Screen name="Settings" component={Settings} options={{headerShown:false}}/>
                   <Stack.Screen name="Languages" component={Languages} options={{headerShown:false}}/>
                   <Stack.Screen name="Shop" component={Shop} options={{headerShown:false}}/>
+                  <Stack.Screen name="Game" component={Game} options={{headerShown:false}}/>
                 </Stack.Navigator>
               </NavigationContainer>
           </langcontext.Provider>
