@@ -1,8 +1,17 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { Text, View,StyleSheet } from 'react-native';
 import Slider from '@react-native-community/slider';
+import Icon from 'react-native-vector-icons/FontAwesome';
 export const Sliderwithvalue: () => Node = (props) => {
+    const [thumb, setThumb] = useState();
     const [SliderValue, setSliderValue] = useState(props.defaultvalue);
+    useEffect(() => {
+      Icon.getImageSource('circle', 25, props.textcolor)
+       .then(setThumb);
+    }, [props.textcolor]);
+    useEffect(() => {
+      setSliderValue(props.defaultvalue);
+    }, [props.defaultvalue]);
     return (
       <View style={[Array.from(props.style),{...props.style,paddingHorizontal: 10, flexDirection: 'row',alignItems: 'center'}]}>
         <Slider
@@ -15,7 +24,7 @@ export const Sliderwithvalue: () => Node = (props) => {
             onSlidingComplete={(value)=>{props.valueset(value)}}
             style={{flex: 1}}
             value={props.defaultvalue}
-            thumbImage={props.thumbtheme === 'light' ? require('../assets/imgs/thumb.png') : require('../assets/imgs/thumb-nm.png')}
+            thumbImage={thumb}
         />
         <Text style={{width: 20,marginLeft: 10, fontFamily: 'DotsAllForNowJL', color: props.textcolor}}>{SliderValue}</Text>
       </View>
