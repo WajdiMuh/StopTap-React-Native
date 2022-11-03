@@ -21,6 +21,13 @@ export default {
         name: "وجدي المهتدي",
         thxforplaying: "شكراً على اللعب"
     },
+    game:{
+        pause: {
+            resume: "استمر",
+            retry: "إعادة البدء",
+            mainmenu: "القائمة"
+        }
+    },
     shop:{
         title: "المتجر",
         buy: "اشتري",

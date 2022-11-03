@@ -21,6 +21,13 @@ export default {
         name: "Wajdi ELMuhtadi",
         thxforplaying: "Thanks For Playing"
     },
+    game:{
+        pause: {
+            resume: "Resume",
+            retry: "Retry",
+            mainmenu: "Menu"
+        }
+    },
     shop:{
         title: "Shop",
         buy: "Buy",
