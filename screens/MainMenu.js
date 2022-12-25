@@ -54,7 +54,7 @@ export const MainMenu: () => Node = ({ navigation }) => {
             btcolor={colors.text}
             onPress={()=> {
               Toast.hide();
-              navigation.pop();
+              navigation.navigate('Game');
             }}
             title={strings.mainmenu.play}
             style={styles.gap}
@@ -64,9 +64,8 @@ export const MainMenu: () => Node = ({ navigation }) => {
           btcolor={colors.text}
           onPress={()=> {
             Toast.hide();
-            navigation.navigate('Game');
           }}
-          title={strings.mainmenu.play}
+          title={strings.mainmenu.howtoplay}
           style={styles.gap}
         />
         <StopTapButton
@@ -83,8 +82,8 @@ export const MainMenu: () => Node = ({ navigation }) => {
           bgcolor={colors.background}
           btcolor={colors.text}
           onPress={()=> {
+            Toast.hide();
             if(API.checkuserid()){
-              Toast.hide();
               navigation.navigate('Leaderboard');
             }else if(!API.checkusername()){
               setUserNameModalVisible(true);
