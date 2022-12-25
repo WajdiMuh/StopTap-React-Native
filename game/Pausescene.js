@@ -24,7 +24,9 @@ import { pausecontext } from '../screens/Game';
 export const Pausescene: () => Node = (props) => {  
   const { colors } = useTheme();
   const styles = PausesceneStyle(colors);
-  const {Pause,setPause} = useContext(pausecontext);
+  const {pause,restart} = useContext(pausecontext);
+  const [Pause, setPause] = pause;
+  const [Restart, setRestart] = restart;
   return (
     Pause && <View style={styles.container}>
         <StopTapButton
@@ -39,7 +41,10 @@ export const Pausescene: () => Node = (props) => {
         <StopTapButton
             bgcolor={colors.background}
             btcolor={colors.text}
-            onPress={()=> {}}
+            onPress={()=> {
+              setRestart(true);
+              setPause(false);
+            }}
             title={strings.game.pause.retry}
             style={styles.gap}
         />        
