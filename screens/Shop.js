@@ -91,12 +91,7 @@ export const Shop: () => Node = ({ navigation }) => {
         <SafeAreaView style={styles.container}>
             <View style={styles.uppercontainer}>
                 <Text style={styles.shoptitle}>{strings.shop.title}</Text>
-                <View style={styles.coincontainer}>            
-                    <Image
-                        style={styles.coinimg}
-                        source={require('../assets/imgs/coin.png')}/>
-                        <Text style={styles.coinstext}>{numberformatter.format(Coins)}</Text>
-                </View>
+                <Coinshud style={styles.coinscontainer} coins={Coins} textcolor={colors.text}/>
             </View>
             <View style={styles.midcontainer}>
                 <StopTapButton
@@ -156,7 +151,7 @@ const ShopStyle = (colors:any) => StyleSheet.create({
         flex: 1
     },
     uppercontainer:{
-        alignItems:'center'
+        alignItems: 'center',
     },
     midcontainer:{
         flex: 1,
@@ -185,13 +180,13 @@ const ShopStyle = (colors:any) => StyleSheet.create({
     item:{
         flex: 1,
         alignSelf: 'stretch',
-        marginVertical: 55,
+        marginVertical: 45,
         marginHorizontal: 10,
     },
-    coincontainer:{
+    coinscontainer:{
         position: 'absolute',
         top: 10,
-        left: 10,
+        left: 10
     },
     backbtn:{
         position: 'absolute',
