@@ -25,7 +25,7 @@ import { Shop } from './screens/Shop';
 import Toast from 'react-native-toast-message';
 import { toastConfig } from './components/Stoptaptoast'
 import { Game } from './screens/Game';
-import { shopanim,leaderboardanim,miscellaneousanim } from './screens/ScreenTransitions';
+import { playanim,shopanim,leaderboardanim,miscellaneousanim } from './screens/ScreenTransitions';
 import SplashScreen from 'react-native-splash-screen';
 import { GameOver } from './screens/GameOver';
 import API from './API/API';
@@ -58,6 +58,10 @@ const App: () => Node = () => {
                   <Stack.Screen name="Dev" component={Dev}/>
                   <Stack.Screen name="Settings" component={Settings}/>
                   <Stack.Screen name="Languages" component={Languages}/>
+                  <Stack.Screen name="Game" component={Game}
+                    options={{
+                      cardStyleInterpolator: playanim
+                    }}/>
                   <Stack.Screen name="Shop" component={Shop}
                     options={{
                       cardStyleInterpolator: shopanim
@@ -66,7 +70,10 @@ const App: () => Node = () => {
                     options={{
                       cardStyleInterpolator: leaderboardanim
                     }}/>
-                  <Stack.Screen name="GameOver" component={GameOver}/>
+                  <Stack.Screen name="GameOver" component={GameOver}
+                    options={{
+                      cardStyleInterpolator: playanim
+                    }}/>
                 </Stack.Navigator>
               </NavigationContainer>
           </langcontext.Provider>
