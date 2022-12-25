@@ -27,66 +27,120 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { Doublescorehud } from '../components/Doublescorehud';
 import { Coinshud } from '../components/Coinshud';
 import { Box } from '../components/Box';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Direction } from './Directionenum';
+import { LifeLost } from '../components/LifeLost';
 export const Gamescene: () => Node = (props) => {  
   const { colors } = useTheme();
   const { height, width } = useWindowDimensions();
-  const styles = GamesceneStyle(colors,width);
-  const {Pause,setPause} = useContext(pausecontext);
+  const insets = useSafeAreaInsets();
+  const screenusablewidth:Number = (width - insets.left - insets.right);
+  const BigBoxWidth = (50 * width) / 411;
+  const SmallBoxWidth = (35 * width) / 411;
+  const styles = GamesceneStyle(colors,BigBoxWidth,SmallBoxWidth);
+  const maxX = screenusablewidth - SmallBoxWidth;
+  const {pause} = useContext(pausecontext);
+  const [Pause, setPause] = pause;
   const [Lives, setLives] = useState(3);
+  const [Score, setScore] = useState(0);
   const [DoubleScore, setDoubleScore] = useState(false);
   const [BigBoxX, setBigBoxX] = useState(0);
-  const [BigBoxWidth, setBigBoxWidth] = useState(0);
   const [IsIntersecting, setIsIntersecting] = useState(false);
+  const [DirectionState, setDirectionState] = useState(Direction.Right);
+  const [Duration,setDuration] = useState(576);
+  const [LastGeneratedDuration,setLastGeneratedDuration] = useState(576);
   const moveanimref = useRef(new Animated.Value(0)).current;
-  // const moveanimright = Animated.timing(moveanimref, {
-  //     toValue: width - ((35 * width) / 411),
-  //     duration: 1000,
-  //     useNativeDriver: true
-  // });
-  const moveanim = Animated.loop(
-    Animated.sequence([
-      Animated.timing(moveanimref, {
-        toValue: width - ((35 * width) / 411),
-        duration: 1000,
-        useNativeDriver: true
-      }),
-      {
-        start: (finished) => {
-          console.log("finished right");
-          finished({finished: true});
-        }
-      },
-      Animated.timing(moveanimref, {
-        toValue: 0,
-        duration: 1000,
-        useNativeDriver: true
-      }),
-      {
-        start: (finished) => {
-          console.log("finished left");
-          finished({finished: true});
-        }
-      },
-    ])
-  );
-  useEffect(() => {
-    moveanimref.addListener((value) => {
-      setIsIntersecting((value.value > BigBoxX) && (value.value < BigBoxX + BigBoxWidth));
+  const leftanim = Animated.timing(moveanimref, {
+      toValue: 0,
+      duration: Duration,
+      useNativeDriver: true
     });
+  const rightanim = Animated.timing(moveanimref, {
+    toValue: maxX,
+    duration: Duration,
+    useNativeDriver: true
+  });
+  function rightanimend({finished}){
+    if (!finished) return;
+    generaterandomduration();
+    setDirectionState(Direction.Left);
+  }
+  function leftanimend({finished}){
+    if (!finished) return;
+    generaterandomduration();
+    setDirectionState(Direction.Right);
+    }
+  function generaterandomduration(){
+    switch(Math.floor(Math.random() * 3)){
+      case 0:
+        setDuration(288);
+        setLastGeneratedDuration(288);
+        break;
+      case 1:
+        setDuration(576);
+        setLastGeneratedDuration(576);
+        break;
+      case 2:
+        setDuration(864);
+        setLastGeneratedDuration(864);
+        break;
+      default:
+        setDuration(576);
+        setLastGeneratedDuration(576);
+        break;
+    }
+  }
+  useEffect(() => {
+    if(!moveanimref.hasListeners()){
+      moveanimref.addListener((value) => {
+        setIsIntersecting((value.value > (BigBoxX - SmallBoxWidth)) && (value.value < (BigBoxX + BigBoxWidth)));
+      });
+    }
     return () => {
       moveanimref.removeAllListeners();
     };
-  }, [BigBoxX,BigBoxWidth]);
+  }, [BigBoxX]);
   useEffect(() => {
-    moveanim.start();
-    return () => {
-    };
-  }, []);
+    if(DirectionState == Direction.Left){
+      leftanim.start(leftanimend);
+    }else{
+      rightanim.start(rightanimend);
+    }
+  }, [DirectionState]);
+  useEffect(() => {
+    if(Pause){
+      moveanimref.stopAnimation(currentx => {
+        if(DirectionState == Direction.Left){
+          setDuration(currentx * LastGeneratedDuration / maxX);
+        }else{
+          setDuration((maxX - currentx) * LastGeneratedDuration / maxX);
+        }
+      });
+    }else{
+      if(DirectionState == Direction.Left){
+        leftanim.start(leftanimend);
+      }else{
+        rightanim.start(rightanimend);
+      }
+    }
+  }, [Pause]);
+  useEffect(() => {
+    const unsubscribe = props.navigation.addListener('transitionEnd', (e) => {
+      console.log(e);
+    });
+    return unsubscribe;
+  }, [props.navigation]);
   return (
     !Pause && <TouchableOpacity activeOpacity={1} style={styles.container}
       onPressIn={()=>{
         if(!IsIntersecting){
-          setLives(Lives - 1);
+          if(Lives <= 0){
+            props.navigation.navigate('GameOver');
+          }else{
+            setLives(Lives - 1);
+          }
+        }else{
+          setScore(Score + 1);
         }
       }}
     >
@@ -100,6 +154,7 @@ export const Gamescene: () => Node = (props) => {
       </View>
       <Coinshud style={styles.coinscontainer} coins={3000} textcolor={colors.text}/>
       <View style={styles.boxescontainer}>
+        <LifeLost style={styles.lifelost} x={200} size={SmallBoxWidth} on={Lives}></LifeLost>
         <Animated.View 
           style={[styles.smallboxmovecontainer,
             {
@@ -115,16 +170,16 @@ export const Gamescene: () => Node = (props) => {
         </Animated.View>
         <Box btcolor={colors.text} style={styles.bigbox} color={'red'} onLayout={(event:LayoutChangeEvent)=>{
           setBigBoxX(event.nativeEvent.layout.x);
-          setBigBoxWidth(event.nativeEvent.layout.width);
         }}/>
       </View>
-      <Button title='start move' onPress={()=>{
-      }}/>
+      <Text style={styles.score}>
+        Score : {Score}
+      </Text>
     </TouchableOpacity>
   );
 };
 
-const GamesceneStyle = (colors:any,width:Number) => StyleSheet.create({
+const GamesceneStyle = (colors:any,bigboxsize:Number,smallboxsize:Number) => StyleSheet.create({
   container:{
     alignItems: 'center',
     justifyContent: 'center',
@@ -149,17 +204,17 @@ const GamesceneStyle = (colors:any,width:Number) => StyleSheet.create({
     left: 10
   },
   smallbox:{
-    width: (35 * width) / 411 ,
-    height: (35 * width) / 411 ,
+    width: smallboxsize ,
+    height: smallboxsize ,
   },
   bigbox:{
-    width: (50 * width) / 411 ,
-    height: (50 * width) / 411 ,
+    width: bigboxsize ,
+    height: bigboxsize ,
   },
   smallboxmovecontainer:{
     position: 'absolute',
     left: 0,
-    zIndex: 1
+    zIndex: 2
   },
   boxescontainer:{
     flex: 1,
@@ -167,5 +222,17 @@ const GamesceneStyle = (colors:any,width:Number) => StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'stretch'
-  }
+  },
+  score:{
+    position: 'absolute',
+    bottom: 10,
+    color: colors.text,
+    fontFamily: 'DotsAllForNowJL',
+    fontSize: 24
+  },
+  lifelost:{
+    position: 'absolute',
+    left: 0,
+    zIndex: 1
+  },
 });
