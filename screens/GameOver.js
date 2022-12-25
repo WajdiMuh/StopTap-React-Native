@@ -42,7 +42,7 @@ export const GameOver: () => Node = ({ navigation }) => {
             <StopTapButton
                 bgcolor={colors.background}
                 btcolor={colors.text}
-                onPress={()=> {navigation.pop();}}
+                onPress={()=> {navigation.popToTop();}}
                 title={strings.gameover.menu}
                 style={styles.mainmenu}
             />
