@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 export const LifeLost: () => Node = (props) => {
     const sizeanimref = useRef(new Animated.Value(0)).current;
     const rotateanimref = useRef(new Animated.Value(0)).current;
+    const firstrender = useRef(true);
     const onanim = Animated.parallel([
         Animated.timing(sizeanimref, {
             toValue: 0,
@@ -17,12 +18,15 @@ export const LifeLost: () => Node = (props) => {
         })
     ]);
     useEffect(() => {
-        if(props.on){
+        if(props.on >= 0 && !firstrender.current){
             sizeanimref.setValue(1);
             rotateanimref.setValue(0);
             onanim.start();
         }
     }, [props.on]);
+    useEffect(() => {
+        firstrender.current = false
+      }, []);
     return (
         <Animated.View 
             style={[{...props.style},{
