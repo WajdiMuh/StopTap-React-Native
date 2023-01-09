@@ -126,7 +126,6 @@ export const Gamescene: () => Node = (props) => {
   }, [Pause]);
   useEffect(() => {
     const unsubscribe = props.navigation.addListener('transitionEnd', (e) => {
-      console.log(e);
     });
     return unsubscribe;
   }, [props.navigation]);
@@ -135,7 +134,7 @@ export const Gamescene: () => Node = (props) => {
       onPressIn={()=>{
         if(!IsIntersecting){
           if(Lives <= 0){
-            props.navigation.navigate('GameOver');
+            props.navigation.navigate('GameOver',{score: Score});
           }else{
             setLives(Lives - 1);
           }

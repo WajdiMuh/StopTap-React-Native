@@ -21,15 +21,15 @@ import { Devname } from '../components/Devname';
 import { strings } from '../translations/languages';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import ConfettiCannon from 'react-native-confetti-cannon';
-export const GameOver: () => Node = ({ navigation }) => {  
+export const GameOver: () => Node = ({route, navigation }) => {  
   const { colors } = useTheme();
   const styles = GameOverStyle(colors);
   const { height, width } = useWindowDimensions();
   return (
     <SafeAreaView style={styles.container}>
-        <ConfettiCannon style={styles.confetti} count={300} origin={{x: width / 2, y: -20}} fallSpeed={1500} explosionSpeed={300} colors={['red','blue']} fadeOut={true}/>
+        <ConfettiCannon style={styles.confetti} count={30} origin={{x: width / 2, y: -20}} fallSpeed={1500} explosionSpeed={300} colors={['red','blue']} fadeOut={true}/>
         <View style={styles.uppercontainer}>
-            <Text style={styles.score}>{strings.gameover.score}</Text>
+            <Text style={styles.score}>{strings.gameover.score}{route.params.score}</Text>
             <Text style={styles.gameover}>{strings.gameover.gameover}</Text>
         </View>
         <View style={styles.midcontainer}>
