@@ -30,6 +30,7 @@ import { Box } from '../components/Box';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Direction } from './Directionenum';
 import { LifeLost } from '../components/LifeLost';
+import { readPatch } from 'patch-package/dist/patch/read';
 export const Gamescene: () => Node = (props) => {  
   const { colors } = useTheme();
   const { height, width } = useWindowDimensions();
@@ -45,6 +46,8 @@ export const Gamescene: () => Node = (props) => {
   const [Score, setScore] = useState(0);
   const [DoubleScore, setDoubleScore] = useState(false);
   const [BigBoxX, setBigBoxX] = useState(0);
+  const [SmallBoxX, setSmallBoxX] = useState(0);
+  const [LifeLostX, setLifeLostX] = useState(0);
   const [IsIntersecting, setIsIntersecting] = useState(false);
   const [DirectionState, setDirectionState] = useState(Direction.Right);
   const [Duration,setDuration] = useState(576);
@@ -93,6 +96,7 @@ export const Gamescene: () => Node = (props) => {
   useEffect(() => {
     if(!moveanimref.hasListeners()){
       moveanimref.addListener((value) => {
+        setSmallBoxX(value.value);
         setIsIntersecting((value.value > (BigBoxX - SmallBoxWidth)) && (value.value < (BigBoxX + BigBoxWidth)));
       });
     }
@@ -136,6 +140,7 @@ export const Gamescene: () => Node = (props) => {
           if(Lives <= 0){
             props.navigation.navigate('GameOver',{score: Score});
           }else{
+            setLifeLostX(SmallBoxX);
             setLives(Lives - 1);
           }
         }else{
@@ -153,7 +158,7 @@ export const Gamescene: () => Node = (props) => {
       </View>
       <Coinshud style={styles.coinscontainer} coins={3000} textcolor={colors.text}/>
       <View style={styles.boxescontainer}>
-        <LifeLost style={styles.lifelost} x={200} size={SmallBoxWidth} on={Lives}></LifeLost>
+        <LifeLost style={styles.lifelost} x={LifeLostX} size={SmallBoxWidth} on={Lives}></LifeLost>
         <Animated.View 
           style={[styles.smallboxmovecontainer,
             {
