@@ -16,7 +16,8 @@ import {
   BackHandler,
   useWindowDimensions,
   Animated,
-  LayoutChangeEvent
+  LayoutChangeEvent,
+  InteractionManager
 } from 'react-native';
 import {useTheme} from '@react-navigation/native'; 
 import { StopTapButton } from '../components/StopTapButton';
@@ -30,7 +31,7 @@ import { Box } from '../components/Box';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Direction } from './Directionenum';
 import { LifeLost } from '../components/LifeLost';
-import { readPatch } from 'patch-package/dist/patch/read';
+//TODO fix game restart since focus is not called after restart
 export const Gamescene: () => Node = (props) => {  
   const { colors } = useTheme();
   const { height, width } = useWindowDimensions();
@@ -40,7 +41,7 @@ export const Gamescene: () => Node = (props) => {
   const SmallBoxWidth = (35 * width) / 411;
   const styles = GamesceneStyle(colors,BigBoxWidth,SmallBoxWidth);
   const maxX = screenusablewidth - SmallBoxWidth;
-  const {pause} = useContext(pausecontext);
+  const {pause,restart} = useContext(pausecontext);
   const [Pause, setPause] = pause;
   const [Lives, setLives] = useState(3);
   const [Score, setScore] = useState(0);
@@ -53,6 +54,8 @@ export const Gamescene: () => Node = (props) => {
   const [Duration,setDuration] = useState(576);
   const [LastGeneratedDuration,setLastGeneratedDuration] = useState(576);
   const moveanimref = useRef(new Animated.Value(0)).current;
+  const firstrender = useRef(true);
+  const [Restart, setRestart] = restart;
   const leftanim = Animated.timing(moveanimref, {
       toValue: 0,
       duration: Duration,
@@ -105,10 +108,13 @@ export const Gamescene: () => Node = (props) => {
     };
   }, [BigBoxX]);
   useEffect(() => {
-    if(DirectionState == Direction.Left){
-      leftanim.start(leftanimend);
-    }else{
-      rightanim.start(rightanimend);
+    if(!firstrender.current){
+      console.log('hey');
+      if(DirectionState == Direction.Left){
+        leftanim.start(leftanimend);
+      }else{
+        rightanim.start(rightanimend);
+      }
     }
   }, [DirectionState]);
   useEffect(() => {
@@ -120,7 +126,7 @@ export const Gamescene: () => Node = (props) => {
           setDuration((maxX - currentx) * LastGeneratedDuration / maxX);
         }
       });
-    }else{
+    }else if(!firstrender.current){
       if(DirectionState == Direction.Left){
         leftanim.start(leftanimend);
       }else{
@@ -129,7 +135,14 @@ export const Gamescene: () => Node = (props) => {
     }
   }, [Pause]);
   useEffect(() => {
-    const unsubscribe = props.navigation.addListener('transitionEnd', (e) => {
+    const unsubscribe = props.navigation.addListener('focus', (e) => {
+      InteractionManager.runAfterInteractions(() => {
+        if(!firstrender.current){
+          setRestart(true);
+        }
+        firstrender.current = false;
+        rightanim.start(rightanimend);
+      });
     });
     return unsubscribe;
   }, [props.navigation]);
@@ -140,7 +153,7 @@ export const Gamescene: () => Node = (props) => {
           if(Lives <= 0){
             props.navigation.navigate('GameOver',{score: Score});
           }else{
-            setLifeLostX(SmallBoxX);
+            setLifeLostX(moveanimref);
             setLives(Lives - 1);
           }
         }else{
